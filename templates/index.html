@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Border Detection & Cropping</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f4f6f9; padding: 30px; }
+    .image-preview { height: 200px; object-fit: contain; border: 1px solid #ddd; padding: 5px; background: white; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="mb-4 text-center">📸 Image Border Detection & Cropping</h2>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-info">{{ messages[0] }}</div>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="/upload" enctype="multipart/form-data" class="mb-4">
+    <div class="input-group">
+      <input type="file" name="image" class="form-control" required>
+      <button type="submit" class="btn btn-primary">Upload Image</button>
+    </div>
+  </form>
+
+  <div class="d-flex justify-content-center mb-4">
+    <a href="/detect" class="btn btn-outline-dark me-2">🔍 Detect Borders</a>
+    <a href="/crop" class="btn btn-outline-success me-2">✂️ Crop Images</a>
+    <a href="/download_report" class="btn btn-outline-info">📥 Download CSV</a>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Uploaded Images</h4>
+      <div class="d-flex flex-wrap gap-3">
+        {% for image in input_images %}
+        <div>
+          <img src="{{ url_for('input_image', filename=image) }}" class="image-preview mb-1">
+          <p class="text-center">{{ image }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Cropped Output Images</h4>
+      <div class="d-flex flex-wrap gap-3">
+        {% for image in output_images %}
+        <div>
+          <img src="{{ url_for('output_image', filename=image) }}" class="image-preview mb-1">
+          <p class="text-center">{{ image }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
